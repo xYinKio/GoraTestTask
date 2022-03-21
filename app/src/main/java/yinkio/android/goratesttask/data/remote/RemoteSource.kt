@@ -2,6 +2,7 @@ package yinkio.android.goratesttask.data.remote
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -33,7 +34,11 @@ class RemoteSource @Inject constructor() : Repository {
 
     override suspend fun getNews(category: Category): List<NewsItem> {
        return getNewsCatching {
-           service.getNews(category.name).awaitResponse()
+            val response = service.getNews(category.name).awaitResponse()
+            Log.d("!!!", "${response.code()}")
+            response
+       }.apply {
+           Log.d("!!!", this.toString())
        }
     }
 
